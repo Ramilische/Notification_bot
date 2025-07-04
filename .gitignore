@@ -1,6 +1,4 @@
 ### User-specific
-data/
-data/data.db
 migration/
 migration/*
 alembic.ini
