@@ -9,7 +9,7 @@ from aiogram.types import Message
 
 dotenv.load_dotenv(dotenv.find_dotenv('.env/creds.env'))
 TOKEN = getenv('TELEGRAM_BOT_TOKEN')
-HELP_TEXT = open('help.txt', 'r', encoding='utf-8').read()
+HELP_TEXT = open('data/help.txt', 'r', encoding='utf-8').read()
 
 dp = Dispatcher()
 

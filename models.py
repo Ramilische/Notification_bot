@@ -38,6 +38,7 @@ class Profile(Base):
     username: Mapped[str] = mapped_column(String, nullable=False, unique=True)
     first_name: Mapped[Optional[str]] = mapped_column(String)
     last_name: Mapped[Optional[str]] = mapped_column(String)
+    user_id: Mapped[int] = mapped_column(ForeignKey('user.id'))
     user: Mapped['User'] = relationship(
         'User',
         back_populates='profile',
@@ -47,11 +48,12 @@ class Profile(Base):
 
 class Website(Base):
     domain: Mapped[Optional[str]] = mapped_column(String)
+    user_id: Mapped[int] = mapped_column(ForeignKey('user.id'))
     user: Mapped['User'] = relationship(
         'User',
         back_populates='websites',
     )
-    forms: Mapped['Form'] = relationship(
+    forms: Mapped[List['Form']] = relationship(
         'Form',
         back_populates='website',
         cascade='all, delete-orphan',
@@ -59,6 +61,7 @@ class Website(Base):
 
 class Form(Base):
     name: Mapped[str] = mapped_column(String, nullable=False)
+    website_id: Mapped[int] = mapped_column(ForeignKey('website.id'))
     website: Mapped['Website'] = relationship(
         'Website',
         back_populates='forms',
