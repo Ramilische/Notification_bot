@@ -8,6 +8,9 @@ from datetime import datetime
 
 
 class Base(AsyncAttrs, DeclarativeBase):
+    """
+        Базовая модель. Применяется для каждой строки БД. Указаны поля id, время создания и последнего обновления строки
+    """
     __abstract__ = True
 
     id: Mapped[Integer] = mapped_column(Integer, primary_key=True, autoincrement=True)
@@ -20,6 +23,9 @@ class Base(AsyncAttrs, DeclarativeBase):
 
 
 class User(Base):
+    """
+        Модель пользователя. Наследуется от Base
+    """
     chat_id: Mapped[int] = mapped_column(Integer, unique=True)
     is_admin: Mapped[bool] = mapped_column(Boolean, default=False)
     profile: Mapped['Profile'] = relationship(
@@ -35,6 +41,9 @@ class User(Base):
     )
 
 class Profile(Base):
+    """
+        Модель профиля. Связана с пользователем. Наследуется от Base
+    """
     username: Mapped[str] = mapped_column(String, nullable=False, unique=True)
     first_name: Mapped[Optional[str]] = mapped_column(String)
     last_name: Mapped[Optional[str]] = mapped_column(String)
@@ -47,6 +56,9 @@ class Profile(Base):
 
 
 class Website(Base):
+    """
+        Модель вебсайта. Связана с пользователем и формами на сайте. Наследуется от Base
+    """
     domain: Mapped[Optional[str]] = mapped_column(String)
     user_id: Mapped[int] = mapped_column(ForeignKey('user.id'))
     user: Mapped['User'] = relationship(
@@ -60,6 +72,9 @@ class Website(Base):
     )
 
 class Form(Base):
+    """
+        Модель формы. Связана с сайтом, на котором находится. Наследуется от Base
+    """
     name: Mapped[str] = mapped_column(String, nullable=False)
     website_id: Mapped[int] = mapped_column(ForeignKey('website.id'))
     website: Mapped['Website'] = relationship(
